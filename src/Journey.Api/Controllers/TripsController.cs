@@ -14,17 +14,9 @@ public class TripsController : ControllerBase
     [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
     public IActionResult Register([FromBody]RequestRegisterTripJson request)
     {
-        try
-        {
-            var useCase = new RegisterTripUseCase();
-            var response = useCase.Execute(request);
-            return Created(string.Empty, response);
-        } catch (JourneyException e) { 
-            return BadRequest(e.Message);
-        } catch 
-        {
-            return StatusCode(StatusCodes.Status500InternalServerError, "Unknown Error");
-        }
+        var useCase = new RegisterTripUseCase();
+        var response = useCase.Execute(request);
+        return Created(string.Empty, response);
     }
 
     [HttpGet]
@@ -42,17 +34,20 @@ public class TripsController : ControllerBase
     [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
     public IActionResult GetById([FromRoute] Guid tripId)
     {
-        try
-        {
-            var useCase = new GetByIdUseCase();
-            var response = useCase.Execute(tripId);
-            return Ok(response);
-        } catch (JourneyException e)
-        {
-            return NotFound(e.Message);
-        } catch
-        {
-            return StatusCode(StatusCodes.Status500InternalServerError, "Unknown Error");
-        }
+        var useCase = new GetByIdUseCase();
+        var response = useCase.Execute(tripId);
+        return Ok(response);
+    }
+
+
+    [HttpDelete]
+    [Route("{tripId}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+    public IActionResult Delete([FromRoute] Guid tripId)
+    {
+        var useCase = new DeleteTripUseCase();
+        useCase.Execute(tripId);
+        return NoContent();
     }
 }

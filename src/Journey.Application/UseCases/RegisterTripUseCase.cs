@@ -1,4 +1,5 @@
-﻿using Journey.Communication.Requests;
+﻿using Journey.Application.UseCases.Validators;
+using Journey.Communication.Requests;
 using Journey.Communication.Responses;
 using Journey.Exception.ExceptionsBase;
 using Journey.Infrastructure;
@@ -29,18 +30,13 @@ public class RegisterTripUseCase
 
     private void Validate(RequestRegisterTripJson request)
     {
-        if (string.IsNullOrWhiteSpace(request.Name))
-        {
-            throw new JourneyException("Name is Null or Empty");
-        }
-        if (request.StartDate < DateTime.UtcNow)
-        {
-            throw new JourneyException("Start Date is with wrong value");
-        }
+        var validator = new RegisterTripValidator();
+        var result = validator.Validate(request);
 
-        if (request.StartDate >= request.EndDate)
+        if(result.IsValid == false)
         {
-            throw new JourneyException("Start Date is smaller than End Date");
+            var errorMessages = result.Errors.Select(error => error.ErrorMessage).ToList();
+            throw new ErrorOnValidationException(errorMessages);
         }
     }
 }

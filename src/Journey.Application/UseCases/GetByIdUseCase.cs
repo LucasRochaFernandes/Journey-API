@@ -16,7 +16,7 @@ public class GetByIdUseCase
 
         if (trip is null)
         {
-            throw new JourneyException("Trip Not Found");
+            throw new NotFoundException("Trip Not Found");
         }
 
         return new ResponseTripJson
