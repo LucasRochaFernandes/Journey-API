@@ -1,3 +1,3 @@
 # Journey - WEB API
 
-Este projeto apresenta uma API WEB robusta desenvolvida em .NET, utilizando o Entity Framework Core como ORM para interagir com um banco de dados SQLite. A arquitetura da aplicação segue os princípios SOLID, garantindo um código modular, testável e de fácil manutenção.
+This project presents a robust WEB API developed in .NET, using Entity Framework Core as an ORM to interact with an SQLite database. The application architecture follows SOLID principles, ensuring modular, testable and easy to maintain code.
